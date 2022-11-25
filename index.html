@@ -1,0 +1,37 @@
+<html>
+<head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+
+    <script>
+        const wallFromFloorComponent = {
+
+            init() {
+                const params = new URLSearchParams(document.location.search.substring(1))
+                const pTexture = params.get('texture') ? params.get('texture') : ''
+                const pW = params.get('w') ? params.get('w') : '1'
+                const pH = params.get('h') ? params.get('h') : '1'
+                console.log(pW+pH+pTexture)
+                const loader = new THREE.TextureLoader();
+                const geometry = new THREE.BoxGeometry( pW, pH, 1 );
+                const material = new THREE.MeshBasicMaterial({
+                    map: loader.load(pTexture),
+                });
+                const cube = new THREE.Mesh(geometry, material);
+                cube.position.set(0,1.5,-2)
+                this.el.setObject3D('box', cube);
+
+            }
+
+
+        }
+        AFRAME.registerComponent('place-on-wall', wallFromFloorComponent)
+    </script>
+</head>
+<body>
+<a-scene>
+<a-entity place-on-wall></a-entity>
+    <a-sky color="#ECECEC"></a-sky>
+</a-scene>
+</body>
+
+</html>
